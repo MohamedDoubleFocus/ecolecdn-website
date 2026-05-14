@@ -1,0 +1,115 @@
+---
+import Logo from './Logo.astro';
+import { getEntry } from 'astro:content';
+
+const contact = await getEntry('contact', 'info');
+const phone = contact!.data.phone;
+const phoneLink = contact!.data.phone_link;
+
+const links = [
+  { href: '/', label: 'Accueil' },
+  { href: '/cours', label: 'Cours' },
+  { href: '/location', label: 'Location' },
+  { href: '/faq', label: 'FAQ' },
+  { href: '/inscription', label: 'Inscription' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100">
+  <div class="container-page flex items-center justify-between py-4">
+    <Logo />
+
+    <!-- Desktop nav -->
+    <nav aria-label="Navigation principale" class="hidden lg:flex items-center gap-1">
+      {links.map((link) => {
+        const isActive = link.href === '/'
+          ? path === '/'
+          : path.startsWith(link.href);
+        return (
+          <a
+            href={link.href}
+            aria-current={isActive ? 'page' : undefined}
+            class:list={[
+              'relative px-4 py-2 text-sm font-medium uppercase tracking-wider transition-colors',
+              isActive ? 'text-accent' : 'text-navy hover:text-accent',
+              'after:absolute after:left-4 after:right-4 after:bottom-0 after:h-0.5 after:bg-accent after:scale-x-0 after:transition-transform',
+              isActive && 'after:scale-x-100',
+            ]}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="hidden lg:flex items-center gap-4">
+      <a href={`tel:${phoneLink}`} class="text-sm font-semibold text-navy hover:text-accent transition-colors">
+        {phone}
+      </a>
+      <a href="/inscription" class="btn-primary text-sm py-2.5 px-5">M'inscrire</a>
+    </div>
+
+    <!-- Mobile burger -->
+    <button
+      type="button"
+      id="mobile-menu-toggle"
+      aria-label="Ouvrir le menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      class="lg:hidden p-2 rounded-md text-navy"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="7" x2="21" y2="7" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="17" x2="21" y2="17" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" hidden class="lg:hidden border-t border-slate-100 bg-white">
+    <nav aria-label="Navigation mobile" class="container-page py-6 flex flex-col gap-1">
+      {links.map((link) => {
+        const isActive = link.href === '/' ? path === '/' : path.startsWith(link.href);
+        return (
+          <a
+            href={link.href}
+            aria-current={isActive ? 'page' : undefined}
+            class:list={[
+              'py-3 px-2 text-base font-medium uppercase tracking-wider border-b border-slate-100',
+              isActive ? 'text-accent' : 'text-navy',
+            ]}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+      <a href={`tel:${phoneLink}`} class="mt-4 text-navy font-semibold">📞 {phone}</a>
+      <a href="/inscription" class="btn-primary mt-3">M'inscrire</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', !open ? 'Fermer le menu' : 'Ouvrir le menu');
+      if (open) {
+        menu.setAttribute('hidden', '');
+      } else {
+        menu.removeAttribute('hidden');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        btn.click();
+      }
+    });
+  }
+</script>

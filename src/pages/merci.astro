@@ -1,0 +1,34 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const page = await getEntry('pages', 'merci');
+const data = page!.data;
+---
+
+<BaseLayout title={data.title} description={data.meta_description} noindex={true}>
+  <section class="min-h-[80vh] flex items-center py-20">
+    <div class="container-page max-w-2xl text-center">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/10 text-accent mb-8 mx-auto" data-anim="up">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+
+      <h1 class="text-h1 mb-6" data-anim="up">{data.hero_title}</h1>
+      <p class="text-lead text-ink-soft mb-10" data-anim="up">{data.hero_subtitle}</p>
+
+      <div class="flex flex-wrap gap-4 justify-center" data-anim="up">
+        <a href="/" class="btn-primary">Retour à l'accueil</a>
+        <a href="/cours" class="btn-secondary">Découvrir nos cours</a>
+      </div>
+
+      <div class="mt-16 pt-12 border-t border-slate-100" data-anim="up">
+        <p class="text-sm text-ink-soft">Une question urgente?</p>
+        <a href="tel:+15149039843" class="font-display text-2xl font-semibold text-navy hover:text-accent transition-colors mt-2 inline-block">
+          514-903-9843
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

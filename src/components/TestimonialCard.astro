@@ -1,0 +1,33 @@
+---
+export interface Props {
+  name: string;
+  quote: string;
+  rating: number;
+}
+const { name, quote, rating } = Astro.props;
+---
+
+<article class="card-soft p-8 md:p-9 h-full flex flex-col" data-anim="up">
+  <div class="star-rating mb-4" aria-label={`Note : ${rating} sur 5 étoiles`}>
+    {Array.from({ length: 5 }, (_, i) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill={i < rating ? '#dc2626' : 'none'} stroke="#dc2626" stroke-width="1.5" aria-hidden="true">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    ))}
+  </div>
+
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="#1e3a8a" class="opacity-15 mb-3" aria-hidden="true">
+    <path d="M9 7H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a4 4 0 0 1-4 4v2a6 6 0 0 0 6-6V9a2 2 0 0 0 0-2zm12 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a4 4 0 0 1-4 4v2a6 6 0 0 0 6-6V9a2 2 0 0 0 0-2z"/>
+  </svg>
+
+  <blockquote class="text-ink leading-relaxed mb-6 flex-1">
+    {quote}
+  </blockquote>
+
+  <footer class="flex items-center gap-3 pt-4 border-t border-slate-100">
+    <div class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center font-semibold text-sm" aria-hidden="true">
+      {name.charAt(0)}
+    </div>
+    <p class="font-semibold text-navy">{name}</p>
+  </footer>
+</article>

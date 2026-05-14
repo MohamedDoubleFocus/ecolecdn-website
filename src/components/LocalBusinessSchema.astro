@@ -1,0 +1,72 @@
+---
+import { getEntry } from 'astro:content';
+
+const contact = await getEntry('contact', 'info');
+const c = contact!.data;
+
+const dayMap: Record<string, string> = {
+  'Lundi': 'Mo',
+  'Mardi': 'Tu',
+  'Mercredi': 'We',
+  'Jeudi': 'Th',
+  'Vendredi': 'Fr',
+  'Samedi': 'Sa',
+  'Dimanche': 'Su',
+};
+
+function toSchemaHours(list: { day: string; hours: string }[]) {
+  return list
+    .filter((h) => !/Fermé/i.test(h.hours))
+    .map((h) => {
+      const code = dayMap[h.day] ?? h.day.slice(0, 2);
+      const [opens, closes] = h.hours
+        .replace(/h/g, ':')
+        .replace(/\s/g, '')
+        .split('–');
+      return {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: code,
+        opens: opens?.length === 4 ? `0${opens}` : opens,
+        closes: closes?.length === 4 ? `0${closes}` : closes,
+      };
+    });
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DrivingSchool',
+  '@id': `${Astro.site}#drivingschool`,
+  name: 'École de conduite Côte-des-Neiges',
+  description: 'École de conduite à Montréal offrant le programme PESR Classe 5, des cours de perfectionnement et la location de véhicule pour examen SAAQ.',
+  url: Astro.site?.toString(),
+  telephone: `+1-${c.phone}`,
+  email: c.email,
+  image: new URL('/images/image-voiture-auto-ecole-cdn.png', Astro.site).toString(),
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: c.address_line,
+    addressLocality: c.address_city,
+    addressRegion: c.address_region,
+    postalCode: c.address_postal,
+    addressCountry: c.address_country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: c.geo_lat,
+    longitude: c.geo_lng,
+  },
+  openingHoursSpecification: toSchemaHours(c.hours_courses),
+  areaServed: [
+    { '@type': 'City', name: 'Montréal' },
+    { '@type': 'Place', name: 'Côte-des-Neiges' },
+    { '@type': 'City', name: 'Laval' },
+  ],
+  sameAs: c.social_links.map((s: { label: string; url: string }) => s.url),
+};
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(jsonLd)}
+/>

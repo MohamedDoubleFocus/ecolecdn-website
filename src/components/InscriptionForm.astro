@@ -1,0 +1,144 @@
+---
+import { getEntry } from 'astro:content';
+
+export interface Props {
+  variant: 'conduite' | 'perfectionnement';
+}
+
+const { variant } = Astro.props;
+
+const isConduite = variant === 'conduite';
+const title = isConduite ? "Cours de conduite (PESR)" : "Cours de perfectionnement";
+const condition = isConduite
+  ? "Assurez-vous d'avoir bientôt 16 ans ou plus."
+  : "Assurez-vous d'avoir un permis apprenti ou un permis de conduire valide au Québec.";
+const subject = isConduite
+  ? "Nouvelle inscription — Cours de conduite (PESR)"
+  : "Nouvelle inscription — Cours de perfectionnement";
+const idPrefix = isConduite ? 'cd' : 'pf';
+
+// Formsubmit.co — service de gestion de formulaires sans inscription.
+// L'URL pointe directement vers l'adresse de réception. Au premier envoi,
+// Formsubmit envoie un courriel d'activation à confirmer (une seule fois).
+//
+// Pour la production, on peut remplacer l'email par un identifiant aléatoire
+// (token) fourni par Formsubmit pour cacher l'email du code source.
+// Voir le README pour la procédure d'activation du token.
+//
+// La cible du formulaire est lue depuis src/content/contact/info.md afin que
+// le client puisse changer son courriel de réception via TinaCMS sans toucher
+// au code.
+const contact = await getEntry('contact', 'info');
+const targetEmail = contact!.data.email;
+const formAction = `https://formsubmit.co/${targetEmail}`;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+---
+
+<form
+  action={formAction}
+  method="POST"
+  class="card-soft p-7 md:p-9 flex flex-col h-full"
+  data-anim="up"
+>
+  <!-- Champs spéciaux Formsubmit (préfixés _ ) -->
+  <input type="hidden" name="_subject" value={subject} />
+  <input type="hidden" name="_next" value={`${siteUrl}/merci`} data-next-merci />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_autoresponse" value="Bonjour, nous avons bien reçu votre demande d'inscription à l'École de conduite Côte-des-Neiges. Un membre de notre équipe vous contactera dans un délai de 24 à 48 heures. Merci de votre confiance." />
+  <input type="hidden" name="form_type" value={variant} />
+  <!-- Honeypot anti-spam (champ caché que les bots remplissent) -->
+  <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <header class="mb-6 pb-6 border-b border-slate-100">
+    <p class="eyebrow">{isConduite ? 'Formation complète' : 'Heures à la carte'}</p>
+    <h2 class="text-h3 mb-2">{title}</h2>
+    <p class="text-sm text-ink-soft">⚠️ {condition}</p>
+  </header>
+
+  <div class="space-y-4">
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${idPrefix}-nom`} class="block text-sm font-medium text-navy mb-1.5">Nom de famille <span class="text-accent">*</span></label>
+        <input id={`${idPrefix}-nom`} name="nom" type="text" required autocomplete="family-name"
+          class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+      </div>
+      <div>
+        <label for={`${idPrefix}-prenom`} class="block text-sm font-medium text-navy mb-1.5">Prénom</label>
+        <input id={`${idPrefix}-prenom`} name="prenom" type="text" autocomplete="given-name"
+          class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+      </div>
+    </div>
+
+    <div>
+      <label for={`${idPrefix}-email`} class="block text-sm font-medium text-navy mb-1.5">Courriel <span class="text-accent">*</span></label>
+      <input id={`${idPrefix}-email`} name="email" type="email" required autocomplete="email"
+        class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${idPrefix}-tel`} class="block text-sm font-medium text-navy mb-1.5">Numéro de téléphone</label>
+        <input id={`${idPrefix}-tel`} name="telephone" type="tel" autocomplete="tel"
+          class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+      </div>
+      <div>
+        <label for={`${idPrefix}-naissance`} class="block text-sm font-medium text-navy mb-1.5">Date de naissance</label>
+        <input id={`${idPrefix}-naissance`} name="date_naissance" type="date" autocomplete="bday"
+          class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+      </div>
+    </div>
+
+    {isConduite && (
+      <>
+        <div>
+          <label for={`${idPrefix}-adresse`} class="block text-sm font-medium text-navy mb-1.5">Adresse</label>
+          <input id={`${idPrefix}-adresse`} name="adresse" type="text" autocomplete="street-address"
+            class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div class="sm:col-span-2">
+            <label for={`${idPrefix}-ville`} class="block text-sm font-medium text-navy mb-1.5">Ville</label>
+            <input id={`${idPrefix}-ville`} name="ville" type="text" autocomplete="address-level2"
+              class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+          </div>
+          <div>
+            <label for={`${idPrefix}-app`} class="block text-sm font-medium text-navy mb-1.5">Appartement</label>
+            <input id={`${idPrefix}-app`} name="appartement" type="text"
+              class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+          </div>
+        </div>
+
+        <div>
+          <label for={`${idPrefix}-cp`} class="block text-sm font-medium text-navy mb-1.5">Code postal</label>
+          <input id={`${idPrefix}-cp`} name="code_postal" type="text" autocomplete="postal-code" pattern="[A-Za-z][0-9][A-Za-z][ -]?[0-9][A-Za-z][0-9]"
+            class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+        </div>
+
+        <div>
+          <label for={`${idPrefix}-parent`} class="block text-sm font-medium text-navy mb-1.5">
+            Nom du parent ou titulaire légal <span class="text-ink-soft text-xs">(si 18 ans et moins)</span>
+          </label>
+          <input id={`${idPrefix}-parent`} name="parent" type="text"
+            class="w-full px-4 py-2.5 rounded-md border border-slate-200 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" />
+        </div>
+      </>
+    )}
+  </div>
+
+  <button type="submit" class="btn-primary w-full mt-8 justify-center">
+    Envoyer ma demande d'inscription
+  </button>
+
+  <p class="mt-4 text-xs text-ink-soft text-center">
+    Nous vous contactons dans un délai de 24 à 48 heures. Vos données ne sont pas partagées.
+  </p>
+</form>
+
+<script is:inline>
+  document.querySelectorAll('input[data-next-merci]').forEach((el) => {
+    el.value = window.location.origin + '/merci';
+  });
+</script>

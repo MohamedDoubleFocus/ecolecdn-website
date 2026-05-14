@@ -1,0 +1,30 @@
+---
+interface Props {
+  /** Hauteur affichée du logo en pixels (défaut : 48). */
+  height?: number;
+  /** Si true, lien vers l'accueil. Si false, juste l'image. */
+  asLink?: boolean;
+}
+const { height = 48, asLink = true } = Astro.props;
+
+const Tag = asLink ? 'a' : 'span';
+const linkProps = asLink
+  ? {
+      href: '/',
+      'aria-label': "Retour à l'accueil — École de conduite Côte-des-Neiges",
+    }
+  : {};
+---
+
+<Tag {...linkProps} class="inline-flex items-center group">
+  <img
+    src="/images/logo.png"
+    alt="École de conduite Côte-des-Neiges"
+    width="280"
+    height="80"
+    style={`height: ${height}px; width: auto;`}
+    class="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+    loading="eager"
+    decoding="async"
+  />
+</Tag>

@@ -1,0 +1,67 @@
+---
+export interface Props {
+  title: string;
+  price: string;
+  priceUnit?: string;
+  description: string;
+  items?: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  featured?: boolean;
+}
+
+const {
+  title,
+  price,
+  priceUnit,
+  description,
+  items = [],
+  ctaLabel = 'Plus de détails',
+  ctaHref = '/cours',
+  featured = false,
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    'card-soft p-8 md:p-10 flex flex-col h-full',
+    featured && 'border-accent/30 bg-gradient-to-br from-white to-sky-soft/40',
+  ]}
+  data-anim="up"
+>
+  {featured && (
+    <span class="self-start inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent bg-accent/10 px-3 py-1.5 rounded-pill mb-4">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      Le plus complet
+    </span>
+  )}
+
+  <h3 class="text-h3 mb-4">{title}</h3>
+
+  <div class="flex items-baseline gap-2 mb-5">
+    <span class="font-display text-4xl font-bold text-navy">{price}</span>
+    {priceUnit && <span class="text-ink-soft text-sm">{priceUnit}</span>}
+  </div>
+
+  <p class="text-ink leading-relaxed mb-6">{description}</p>
+
+  {items.length > 0 && (
+    <ul class="space-y-2.5 mb-8">
+      {items.map((item) => (
+        <li class="flex items-start gap-2.5 text-sm text-ink">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <div class="mt-auto pt-2 flex flex-wrap gap-3">
+    <a href={ctaHref} class="btn-primary text-sm py-3 px-6">{ctaLabel}</a>
+    <a href="/inscription" class="btn-ghost">Je m'inscris →</a>
+  </div>
+</article>

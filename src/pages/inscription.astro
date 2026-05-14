@@ -1,0 +1,37 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import InscriptionForm from '../components/InscriptionForm.astro';
+
+const page = await getEntry('pages', 'inscription');
+const data = page!.data;
+---
+
+<BaseLayout title={data.title} description={data.meta_description} keywords={data.meta_keywords}>
+  <Hero
+    title={data.hero_title!}
+    subtitle={data.hero_subtitle}
+    image={data.hero_image!}
+    imageAlt="Moniteur accueillant un nouvel élève à côté d'une voiture-école."
+    variant="compact"
+  />
+
+  <section class="py-20 md:py-section">
+    <div class="container-page">
+      <div class="grid lg:grid-cols-2 gap-8">
+        <InscriptionForm variant="conduite" />
+        <InscriptionForm variant="perfectionnement" />
+      </div>
+
+      <div class="max-w-3xl mx-auto mt-16 text-center" data-anim="up">
+        <p class="text-ink-soft">
+          Une question avant de vous inscrire? Appelez-nous au
+          <a href="tel:+15149039843" class="text-accent font-semibold hover:underline">514-903-9843</a>
+          ou écrivez à
+          <a href="mailto:ecoledeconduitecdn@gmail.com" class="text-accent font-semibold hover:underline break-all">ecoledeconduitecdn@gmail.com</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FAQItem from '../components/FAQItem.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const page = await getEntry('pages', 'faq');
+const data = page!.data;
+
+const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
+const schemaItems = faqs.map((f) => ({ question: f.data.question, answer: f.data.answer }));
+---
+
+<BaseLayout title={data.title} description={data.meta_description} keywords={data.meta_keywords}>
+  <slot name="head" slot="head">
+    <FAQSchema items={schemaItems} />
+  </slot>
+
+  <Hero
+    title={data.hero_title!}
+    subtitle={data.hero_subtitle}
+    image={data.hero_image!}
+    imageAlt="Moniteur et élève en discussion à l'intérieur d'une voiture-école."
+    variant="compact"
+    ctaLabel={data.cta_label}
+    ctaHref={data.cta_href}
+  />
+
+  <section class="py-20 md:py-section">
+    <div class="container-page">
+      <div class="max-w-2xl mb-12" data-anim="up">
+        <p class="eyebrow">Aide</p>
+        <h2 class="text-h2">Vos questions, nos réponses</h2>
+        <p class="text-lead text-ink-soft mt-4">
+          Vous ne trouvez pas votre réponse? Contactez-nous directement par téléphone
+          ou par courriel — nous répondons rapidement.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        {faqs.map((f, idx) => (
+          <FAQItem
+            question={f.data.question}
+            answer={f.data.answer}
+            open={idx === 0}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>

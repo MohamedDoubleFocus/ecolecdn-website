@@ -1,0 +1,37 @@
+# Build
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.production
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TinaCMS générés
+tina/__generated__/*
+!tina/__generated__/.gitkeep
+public/admin/
+
+# Cache
+.cache/
+.turbo/
