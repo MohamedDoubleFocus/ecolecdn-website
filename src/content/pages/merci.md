@@ -7,4 +7,10 @@ hero_subtitle: "Votre demande a bien été reçue. Un membre de notre équipe vo
 hero_image: "/images/etudiant-conducteur-vue-sur-la-route.png"
 cta_label: "Retour à l'accueil"
 cta_href: "/"
+
+merci_primary_button_label: "Retour à l'accueil"
+merci_primary_button_href: "/"
+merci_secondary_button_label: "Découvrir nos cours"
+merci_secondary_button_href: "/cours"
+merci_urgent_label: "Une question urgente?"
 ---

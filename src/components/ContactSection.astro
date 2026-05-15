@@ -1,6 +1,18 @@
 ---
 import { getEntry } from 'astro:content';
 
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+}
+
+const {
+  eyebrow = 'Nous joindre',
+  title = "Contact et heures d'ouverture",
+  intro = 'Une question? Une réservation? Visitez-nous à Côte-des-Neiges ou contactez-nous par téléphone, par courriel, ou via les liens ci-dessous.',
+} = Astro.props;
+
 const contact = await getEntry('contact', 'info');
 const c = contact!.data;
 ---
@@ -8,12 +20,9 @@ const c = contact!.data;
 <section class="bg-sky-soft py-20 md:py-section" id="contact">
   <div class="container-page">
     <div class="max-w-2xl mb-14" data-anim="up">
-      <p class="eyebrow">Nous joindre</p>
-      <h2 class="text-h2">Contact et heures d'ouverture</h2>
-      <p class="text-lead text-ink-soft mt-4">
-        Une question? Une réservation? Visitez-nous à Côte-des-Neiges ou contactez-nous
-        par téléphone, par courriel, ou via les liens ci-dessous.
-      </p>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="text-h2">{title}</h2>
+      <p class="text-lead text-ink-soft mt-4">{intro}</p>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-10">

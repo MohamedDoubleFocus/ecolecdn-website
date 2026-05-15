@@ -6,6 +6,7 @@ import CourseCard from '../components/CourseCard.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import ContactSection from '../components/ContactSection.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import { inlineMd } from '../lib/markdown';
 
 const page = await getEntry('pages', 'accueil');
 const data = page!.data;
@@ -34,78 +35,70 @@ const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data
   <section class="py-20 md:py-section">
     <div class="container-page grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
       <div data-anim="up">
-        <p class="eyebrow">Allez plus loin avec notre école</p>
-        <h2 class="text-h2 mb-6">École de conduite experte à Montréal</h2>
+        {data.about_eyebrow && <p class="eyebrow">{data.about_eyebrow}</p>}
+        {data.about_title && <h2 class="text-h2 mb-6">{data.about_title}</h2>}
         <div class="space-y-5 text-ink leading-relaxed text-lg max-w-prose">
-          <p>
-            Forts de plus de <strong class="text-navy font-semibold">20 ans d'expérience</strong> et après avoir formé plus de <strong class="text-navy font-semibold">2 500 élèves</strong>, nos instructeurs de conduite ont acquis une réputation solide.
-          </p>
-          <p>
-            Certifiés et dévoués, ils offrent une formation personnalisée, mettant l'accent sur la sécurité routière et la confiance au volant. Que vous soyez débutant ou souhaitiez perfectionner vos compétences, nous avons le forfait adapté à vos besoins.
-          </p>
-          <p>
-            Rejoignez-nous pour devenir un conducteur sûr et responsable rapidement, tout en bénéficiant de nos tarifs compétitifs et de nos offres exceptionnelles.
-          </p>
+          {data.about_paragraph_1 && <p set:html={inlineMd(data.about_paragraph_1)} />}
+          {data.about_paragraph_2 && <p set:html={inlineMd(data.about_paragraph_2)} />}
+          {data.about_paragraph_3 && <p set:html={inlineMd(data.about_paragraph_3)} />}
         </div>
-        <div class="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-100">
-          <div>
-            <p class="font-display text-3xl font-bold text-accent">20+</p>
-            <p class="text-sm text-ink-soft mt-1">Années d'expérience</p>
+        {data.about_stats && data.about_stats.length > 0 && (
+          <div class="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-100">
+            {data.about_stats.map((s: { value: string; label: string }) => (
+              <div>
+                <p class="font-display text-3xl font-bold text-accent">{s.value}</p>
+                <p class="text-sm text-ink-soft mt-1">{s.label}</p>
+              </div>
+            ))}
           </div>
-          <div>
-            <p class="font-display text-3xl font-bold text-accent">2500+</p>
-            <p class="text-sm text-ink-soft mt-1">Élèves formés</p>
-          </div>
-          <div>
-            <p class="font-display text-3xl font-bold text-accent">98%</p>
-            <p class="text-sm text-ink-soft mt-1">Taux de réussite</p>
-          </div>
-        </div>
+        )}
       </div>
-      <div class="relative" data-anim="up">
-        <img
-          src="/images/image-voiture-auto-ecole-cdn.png"
-          alt="Voiture-école de l'École de conduite Côte-des-Neiges en service à Montréal."
-          class="w-full h-auto rounded-card shadow-lift object-cover aspect-[4/5]"
-          loading="lazy"
-          decoding="async"
-        />
-        <div class="absolute -bottom-6 -left-6 bg-white rounded-card shadow-soft p-5 hidden md:block">
-          <p class="font-display font-semibold text-navy">Certifié SAAQ</p>
-          <p class="text-xs text-ink-soft">Programme PESR officiel</p>
+      {data.about_image && (
+        <div class="relative" data-anim="up">
+          <img
+            src={data.about_image}
+            alt={data.about_image_alt ?? ''}
+            class="w-full h-auto rounded-card shadow-lift object-cover aspect-[4/5]"
+            loading="lazy"
+            decoding="async"
+          />
+          {(data.about_badge_title || data.about_badge_subtitle) && (
+            <div class="absolute -bottom-6 -left-6 bg-white rounded-card shadow-soft p-5 hidden md:block">
+              {data.about_badge_title && <p class="font-display font-semibold text-navy">{data.about_badge_title}</p>}
+              {data.about_badge_subtitle && <p class="text-xs text-ink-soft">{data.about_badge_subtitle}</p>}
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   </section>
 
-  <!-- Section seconde : "Une école au cœur" -->
+  <!-- Section "Flexibilité et proximité" -->
   <section class="py-20 md:py-section bg-sky-soft">
     <div class="container-page grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
       <div class="lg:order-2" data-anim="up">
-        <p class="eyebrow">Au cœur de Côte-des-Neiges</p>
-        <h2 class="text-h2 mb-6">Flexibilité et proximité</h2>
+        {data.proximity_eyebrow && <p class="eyebrow">{data.proximity_eyebrow}</p>}
+        {data.proximity_title && <h2 class="text-h2 mb-6">{data.proximity_title}</h2>}
         <div class="space-y-5 text-ink leading-relaxed text-lg max-w-prose">
-          <p>
-            Située à <strong class="text-navy font-semibold">Côte-des-Neiges</strong>, notre école de conduite est idéalement placée pour desservir toute la communauté environnante. Nous proposons des cours en semaine et en fin de semaine, ainsi que des leçons en ligne pour plus de flexibilité.
-          </p>
-          <p>
-            En plus des cours de base, nous offrons des leçons de conduite avancée et une préparation complète pour le test de conduite sur circuit. Avec notre approche pédagogique innovante et notre soutien continu, chaque élève reçoit l'attention nécessaire pour réussir.
-          </p>
-          <p>
-            Choisissez notre école pour une formation de qualité et une expérience d'apprentissage positive.
-          </p>
+          {data.proximity_paragraph_1 && <p set:html={inlineMd(data.proximity_paragraph_1)} />}
+          {data.proximity_paragraph_2 && <p set:html={inlineMd(data.proximity_paragraph_2)} />}
+          {data.proximity_paragraph_3 && <p set:html={inlineMd(data.proximity_paragraph_3)} />}
         </div>
-        <a href="/cours" class="btn-secondary mt-8">Découvrir nos formations</a>
+        {data.proximity_button_label && data.proximity_button_href && (
+          <a href={data.proximity_button_href} class="btn-secondary mt-8">{data.proximity_button_label}</a>
+        )}
       </div>
-      <div class="lg:order-1" data-anim="up">
-        <img
-          src="/images/moniteur-avecetudiant-dans-voiture-montrant-la-route.png"
-          alt="Moniteur expérimenté guidant un élève au volant lors d'une leçon pratique de conduite."
-          class="w-full h-auto rounded-card shadow-lift object-cover aspect-[4/5]"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
+      {data.proximity_image && (
+        <div class="lg:order-1" data-anim="up">
+          <img
+            src={data.proximity_image}
+            alt={data.proximity_image_alt ?? ''}
+            class="w-full h-auto rounded-card shadow-lift object-cover aspect-[4/5]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
     </div>
   </section>
 
@@ -113,13 +106,9 @@ const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data
   <section class="py-20 md:py-section">
     <div class="container-page">
       <div class="max-w-2xl mb-14" data-anim="up">
-        <p class="eyebrow">Formations</p>
-        <h2 class="text-h2">Nos cours et tarifs</h2>
-        <p class="text-lead text-ink-soft mt-4">
-          Deux formations adaptées à votre niveau et à vos objectifs : la formation
-          complète PESR pour obtenir votre permis Classe 5, ou des heures de perfectionnement
-          à la carte.
-        </p>
+        {data.courses_section_eyebrow && <p class="eyebrow">{data.courses_section_eyebrow}</p>}
+        {data.courses_section_title && <h2 class="text-h2">{data.courses_section_title}</h2>}
+        {data.courses_section_intro && <p class="text-lead text-ink-soft mt-4">{data.courses_section_intro}</p>}
       </div>
 
       <div class="grid lg:grid-cols-2 gap-8">
@@ -154,11 +143,9 @@ const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data
 
     <div class="container-page relative">
       <div class="max-w-2xl mb-14" data-anim="up">
-        <p class="eyebrow text-accent-light">Ils nous font confiance</p>
-        <h2 class="text-h2 text-white">Témoignages</h2>
-        <p class="text-lead text-white/80 mt-4">
-          Découvrez ce que nos élèves ont vécu chez nous.
-        </p>
+        {data.testimonials_section_eyebrow && <p class="eyebrow text-accent-light">{data.testimonials_section_eyebrow}</p>}
+        {data.testimonials_section_title && <h2 class="text-h2 text-white">{data.testimonials_section_title}</h2>}
+        {data.testimonials_section_intro && <p class="text-lead text-white/80 mt-4">{data.testimonials_section_intro}</p>}
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
@@ -173,5 +160,9 @@ const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data
     </div>
   </section>
 
-  <ContactSection />
+  <ContactSection
+    eyebrow={data.contact_section_eyebrow}
+    title={data.contact_section_title}
+    intro={data.contact_section_intro}
+  />
 </BaseLayout>

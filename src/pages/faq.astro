@@ -31,12 +31,9 @@ const schemaItems = faqs.map((f) => ({ question: f.data.question, answer: f.data
   <section class="py-20 md:py-section">
     <div class="container-page">
       <div class="max-w-2xl mb-12" data-anim="up">
-        <p class="eyebrow">Aide</p>
-        <h2 class="text-h2">Vos questions, nos réponses</h2>
-        <p class="text-lead text-ink-soft mt-4">
-          Vous ne trouvez pas votre réponse? Contactez-nous directement par téléphone
-          ou par courriel — nous répondons rapidement.
-        </p>
+        {data.faq_list_eyebrow && <p class="eyebrow">{data.faq_list_eyebrow}</p>}
+        {data.faq_list_title && <h2 class="text-h2">{data.faq_list_title}</h2>}
+        {data.faq_list_intro && <p class="text-lead text-ink-soft mt-4">{data.faq_list_intro}</p>}
       </div>
 
       <div class="grid md:grid-cols-2 gap-5">
@@ -51,5 +48,9 @@ const schemaItems = faqs.map((f) => ({ question: f.data.question, answer: f.data
     </div>
   </section>
 
-  <ContactSection />
+  <ContactSection
+    eyebrow={data.contact_section_eyebrow}
+    title={data.contact_section_title}
+    intro={data.contact_section_intro}
+  />
 </BaseLayout>

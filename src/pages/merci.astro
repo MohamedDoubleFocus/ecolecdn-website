@@ -4,6 +4,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const page = await getEntry('pages', 'merci');
 const data = page!.data;
+
+const contact = await getEntry('contact', 'info');
+const phone = contact!.data.phone;
+const phoneLink = contact!.data.phone_link;
 ---
 
 <BaseLayout title={data.title} description={data.meta_description} noindex={true}>
@@ -19,14 +23,18 @@ const data = page!.data;
       <p class="text-lead text-ink-soft mb-10" data-anim="up">{data.hero_subtitle}</p>
 
       <div class="flex flex-wrap gap-4 justify-center" data-anim="up">
-        <a href="/" class="btn-primary">Retour à l'accueil</a>
-        <a href="/cours" class="btn-secondary">Découvrir nos cours</a>
+        {data.merci_primary_button_label && (
+          <a href={data.merci_primary_button_href ?? '/'} class="btn-primary">{data.merci_primary_button_label}</a>
+        )}
+        {data.merci_secondary_button_label && (
+          <a href={data.merci_secondary_button_href ?? '/cours'} class="btn-secondary">{data.merci_secondary_button_label}</a>
+        )}
       </div>
 
       <div class="mt-16 pt-12 border-t border-slate-100" data-anim="up">
-        <p class="text-sm text-ink-soft">Une question urgente?</p>
-        <a href="tel:+15149039843" class="font-display text-2xl font-semibold text-navy hover:text-accent transition-colors mt-2 inline-block">
-          514-903-9843
+        {data.merci_urgent_label && <p class="text-sm text-ink-soft">{data.merci_urgent_label}</p>}
+        <a href={`tel:${phoneLink}`} class="font-display text-2xl font-semibold text-navy hover:text-accent transition-colors mt-2 inline-block">
+          {phone}
         </a>
       </div>
     </div>

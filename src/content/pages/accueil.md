@@ -8,16 +8,43 @@ hero_subtitle: "Prenez le volant avec confiance et compétence à l'École de co
 hero_image: "/images/vue-route-horizon-conduire.png"
 cta_label: "Nos cours et tarifs"
 cta_href: "/cours"
+
+about_eyebrow: "Allez plus loin avec notre école"
+about_title: "École de conduite experte à Montréal"
+about_paragraph_1: "Forts de plus de **20 ans d'expérience** et après avoir formé plus de **2 500 élèves**, nos instructeurs de conduite ont acquis une réputation solide."
+about_paragraph_2: "Certifiés et dévoués, ils offrent une formation personnalisée, mettant l'accent sur la sécurité routière et la confiance au volant. Que vous soyez débutant ou souhaitiez perfectionner vos compétences, nous avons le forfait adapté à vos besoins."
+about_paragraph_3: "Rejoignez-nous pour devenir un conducteur sûr et responsable rapidement, tout en bénéficiant de nos tarifs compétitifs et de nos offres exceptionnelles."
+about_image: "/images/image-voiture-auto-ecole-cdn.png"
+about_image_alt: "Voiture-école de l'École de conduite Côte-des-Neiges en service à Montréal."
+about_badge_title: "Certifié SAAQ"
+about_badge_subtitle: "Programme PESR officiel"
+about_stats:
+  - value: "20+"
+    label: "Années d'expérience"
+  - value: "2500+"
+    label: "Élèves formés"
+  - value: "98%"
+    label: "Taux de réussite"
+
+proximity_eyebrow: "Au cœur de Côte-des-Neiges"
+proximity_title: "Flexibilité et proximité"
+proximity_paragraph_1: "Située à **Côte-des-Neiges**, notre école de conduite est idéalement placée pour desservir toute la communauté environnante. Nous proposons des cours en semaine et en fin de semaine, ainsi que des leçons en ligne pour plus de flexibilité."
+proximity_paragraph_2: "En plus des cours de base, nous offrons des leçons de conduite avancée et une préparation complète pour le test de conduite sur circuit. Avec notre approche pédagogique innovante et notre soutien continu, chaque élève reçoit l'attention nécessaire pour réussir."
+proximity_paragraph_3: "Choisissez notre école pour une formation de qualité et une expérience d'apprentissage positive."
+proximity_button_label: "Découvrir nos formations"
+proximity_button_href: "/cours"
+proximity_image: "/images/moniteur-avecetudiant-dans-voiture-montrant-la-route.png"
+proximity_image_alt: "Moniteur expérimenté guidant un élève au volant lors d'une leçon pratique de conduite."
+
+courses_section_eyebrow: "Formations"
+courses_section_title: "Nos cours et tarifs"
+courses_section_intro: "Deux formations adaptées à votre niveau et à vos objectifs : la formation complète PESR pour obtenir votre permis Classe 5, ou des heures de perfectionnement à la carte."
+
+testimonials_section_eyebrow: "Ils nous font confiance"
+testimonials_section_title: "Témoignages"
+testimonials_section_intro: "Découvrez ce que nos élèves ont vécu chez nous."
+
+contact_section_eyebrow: "Nous joindre"
+contact_section_title: "Contact et heures d'ouverture"
+contact_section_intro: "Une question? Une réservation? Visitez-nous à Côte-des-Neiges ou contactez-nous par téléphone, par courriel, ou via les liens ci-dessous."
 ---
-
-## Allez plus loin avec notre école
-
-Forts de plus de 20 ans d'expérience et après avoir formé plus de 2500 élèves, nos instructeurs de conduite ont acquis une réputation solide. Certifiés et dévoués, ils offrent une formation personnalisée, mettant l'accent sur la sécurité routière et la confiance au volant.
-
-Que vous soyez débutant ou souhaitiez perfectionner vos compétences, nous avons le forfait adapté à vos besoins. Rejoignez-nous pour devenir un conducteur sûr et responsable rapidement, tout en bénéficiant de nos tarifs compétitifs et de nos offres exceptionnelles.
-
-## Une école au cœur de Côte-des-Neiges
-
-Située à Côte-des-Neiges, notre école de conduite est idéalement placée pour desservir toute la communauté environnante. Nous proposons des cours en semaine et en fin de semaine, ainsi que des leçons en ligne pour plus de flexibilité.
-
-En plus des cours de base, nous offrons des leçons de conduite avancée et une préparation complète pour le test de conduite sur circuit. Avec notre approche pédagogique innovante et notre soutien continu, chaque élève reçoit l'attention nécessaire pour réussir. Choisissez notre école pour une formation de qualité et une expérience d'apprentissage positive.

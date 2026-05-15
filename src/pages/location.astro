@@ -27,16 +27,22 @@ const phoneLink = contact!.data.phone_link;
   <section class="py-20 md:py-section">
     <div class="container-page grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div class="prose-content" data-anim="up">
-        <p class="eyebrow">Service de location</p>
-        <h2 class="text-h2">Un véhicule prêt pour votre examen</h2>
+        {data.location_main_eyebrow && <p class="eyebrow">{data.location_main_eyebrow}</p>}
+        {data.location_main_title && <h2 class="text-h2">{data.location_main_title}</h2>}
         <Content />
 
-        <ul class="space-y-2.5 mt-6 not-prose">
-          <li class="flex items-start gap-2.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Véhicule régulièrement entretenu et inspecté</span></li>
-          <li class="flex items-start gap-2.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Transmission automatique, climatisation, banquette ajustable</span></li>
-          <li class="flex items-start gap-2.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Conforme aux exigences SAAQ pour l'examen pratique</span></li>
-          <li class="flex items-start gap-2.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Disponibilité aux centres Henri-Bourassa et Laval</span></li>
-        </ul>
+        {data.location_features && data.location_features.length > 0 && (
+          <ul class="space-y-2.5 mt-6 not-prose">
+            {data.location_features.map((f: { text: string }) => (
+              <li class="flex items-start gap-2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>{f.text}</span>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <div class="mt-10 flex flex-wrap gap-3 not-prose">
           <a href={`tel:${phoneLink}`} class="btn-primary">
@@ -50,19 +56,22 @@ const phoneLink = contact!.data.phone_link;
       </div>
 
       <div class="card-soft p-8 bg-gradient-to-br from-navy to-navy-dark text-white" data-anim="up">
-        <p class="text-xs uppercase tracking-widest text-accent-light font-semibold mb-2">Tarif</p>
-        <p class="font-display text-5xl font-bold mb-1">70 $</p>
-        <p class="text-white/80 mb-6">par heure (plus taxes)</p>
+        {data.location_price_label && (
+          <p class="text-xs uppercase tracking-widest text-accent-light font-semibold mb-2">{data.location_price_label}</p>
+        )}
+        {data.location_price && <p class="font-display text-5xl font-bold mb-1">{data.location_price}</p>}
+        {data.location_price_unit && <p class="text-white/80 mb-6">{data.location_price_unit}</p>}
 
-        <div class="border-t border-white/20 pt-6 space-y-3">
-          <p class="text-white/85 leading-relaxed text-sm">
-            Forfaits disponibles pour combiner location de véhicule et heures de perfectionnement
-            avant votre examen. N'hésitez pas à nous contacter pour un devis personnalisé.
-          </p>
-        </div>
+        {data.location_price_note && (
+          <div class="border-t border-white/20 pt-6 space-y-3">
+            <p class="text-white/85 leading-relaxed text-sm">{data.location_price_note}</p>
+          </div>
+        )}
 
         <div class="mt-8 pt-6 border-t border-white/20">
-          <p class="text-xs uppercase tracking-widest text-white/60 mb-1">Réservation</p>
+          {data.location_reservation_label && (
+            <p class="text-xs uppercase tracking-widest text-white/60 mb-1">{data.location_reservation_label}</p>
+          )}
           <a href={`tel:${phoneLink}`} class="font-display text-2xl font-semibold hover:text-accent-light transition-colors">
             {phone}
           </a>
@@ -71,5 +80,9 @@ const phoneLink = contact!.data.phone_link;
     </div>
   </section>
 
-  <ContactSection />
+  <ContactSection
+    eyebrow={data.contact_section_eyebrow}
+    title={data.contact_section_title}
+    intro={data.contact_section_intro}
+  />
 </BaseLayout>
